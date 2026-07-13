@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Central Eye Care | Patient Education</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16212B;
+    --ink-soft:#3E4C56;
+    --paper:#F1F4F1;
+    --card:#FFFFFF;
+    --teal-deep:#103A42;
+    --teal:#2F7A82;
+    --amber:#D98F33;
+    --line:#D7DED9;
+    --focus:#1F6F63;
+
+    --c-dryeye:#3E8FB0;
+    --c-dr:#C1502E;
+    --c-amd:#C99A1D;
+    --c-cat:#7C7188;
+    --c-glau:#1F6F63;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Source Sans 3', sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Inter', sans-serif;
+    font-weight:600;
+    margin:0 0 .4em 0;
+    letter-spacing:-0.01em;
+  }
+  a{color:var(--teal-deep);}
+  .mono{font-family:'IBM Plex Mono', monospace;}
+
+  .skip-link{
+    position:absolute; left:-999px; top:0;
+    background:var(--teal-deep); color:#fff; padding:.6em 1em;
+    z-index:200; border-radius:0 0 6px 0;
+  }
+  .skip-link:focus{left:0;}
+
+  :focus-visible{outline:3px solid var(--focus); outline-offset:2px;}
+
+  /* ---------- Header ---------- */
+  .site-header{
+    background:#fff;
+    color:var(--teal-deep);
+    border-bottom:4px solid var(--amber);
+    position:sticky; top:0; z-index:50;
+  }
+  .header-inner{
+    max-width:1100px; margin:0 auto;
+    display:flex; align-items:center; justify-content:space-between;
+    gap:1rem; padding:.9rem 1.25rem;
+    flex-wrap:wrap;
+  }
+  .brand{
+    display:flex; align-items:center; gap:.7rem;
+    background:none; border:none; cursor:pointer; color:#fff;
+    padding:.2rem; text-align:left;
+  }
+  .brand-mark{
+    width:auto; max-width:118px; height:auto; max-height:118px; flex:0 0 auto; object-fit:contain; display:block;
+    background:#fff; padding:0;
+    box-shadow:none;
+  }
+  .brand-text .eyebrow{
+    display:block; font-family:'IBM Plex Mono', monospace;
+    font-size:.68rem; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--teal); margin-bottom:.15em;
+  }
+  .brand-text .title{
+    font-family:'Inter', sans-serif; font-size:1.28rem; font-weight:600; color:var(--teal-deep);
+  }
+  .header-tools{display:flex; align-items:center; gap:.4rem;}
+  .tool-btn{
+    background:#f5f7f6; border:1px solid var(--line);
+    color:var(--teal-deep); border-radius:0; padding:.4rem .6rem; cursor:pointer;
+    font-family:'IBM Plex Mono', monospace; font-size:.8rem;
+  }
+  .tool-btn:hover{background:#eef2ef;}
+  .breadcrumb{
+    max-width:1100px; margin:0 auto; padding:.55rem 1.25rem;
+    font-family:'IBM Plex Mono', monospace; font-size:.78rem;
+    color:var(--ink-soft); display:flex; gap:.4rem; align-items:center;
+  }
+  .breadcrumb button{
+    background:none; border:none; color:var(--teal-deep); cursor:pointer;
+    font-family:inherit; font-size:inherit; padding:0; text-decoration:underline;
+    font-weight:600;
+  }
+
+  main{max-width:1400px; margin:0 auto; padding:1.5rem 1.25rem 6rem;}
+  .page[hidden]{display:none;}
+
+  .ai-assistant-panel{
+    position:fixed; right:1rem; bottom:1rem; width:min(360px, calc(100vw - 1.5rem)); z-index:60;
+    background:var(--card); border:1px solid var(--line); border-radius:0;
+    box-shadow:0 18px 42px -18px rgba(16,58,66,.34); overflow:hidden;
+    display:flex; flex-direction:column;
+  }
+  .ai-assistant-panel.collapsed{width:auto; min-width:220px;}
+  .ai-assistant-header{
+    padding:1rem 1rem .8rem; border-bottom:1px solid var(--line);
+    display:flex; gap:.75rem; align-items:center;
+    background:linear-gradient(135deg, rgba(47,122,130,.12), rgba(217,143,51,.12));
+  }
+  .ai-avatar{
+    width:42px; height:42px; border-radius:0; display:grid; place-items:center;
+    background:var(--teal-deep); color:#fff; font-family:'IBM Plex Mono', monospace; font-weight:700;
+  }
+  .ai-assistant-title{flex:1; min-width:0;}
+  .ai-assistant-header h2{font-size:1rem; margin:0 0 .1rem;}
+  .ai-assistant-header p{margin:0; color:var(--ink-soft); font-size:.84rem;}
+  .ai-toggle{
+    border:none; border-radius:0; width:2rem; height:2rem; display:grid; place-items:center;
+    background:var(--teal-deep); color:#fff; font-size:1rem; cursor:pointer;
+  }
+  .ai-toggle:hover{background:var(--teal);}
+  .ai-panel-body{display:flex; flex-direction:column;}
+  .ai-assistant-panel.collapsed .ai-panel-body{display:none;}
+  .ai-messages{padding:.9rem; display:flex; flex-direction:column; gap:.6rem; min-height:220px; max-height:320px; overflow:auto; background:var(--paper);}
+  .msg{padding:.65rem .75rem; border-radius:0; font-size:.9rem; line-height:1.45;}
+  .msg.user{background:var(--teal-deep); color:#fff; margin-left:1rem;}
+  .msg.ai{background:#fff; border:1px solid var(--line); margin-right:1rem;}
+  .msg.loading{font-style:italic; opacity:.75;}
+  .ai-input-row{display:flex; gap:.5rem; padding:.8rem; border-top:1px solid var(--line); background:var(--card);}
+  .ai-input-row input{
+    flex:1; border:1px solid var(--line); border-radius:0; padding:.6rem .8rem; font:inherit;
+    color:var(--ink); background:var(--paper);
+  }
+  .ai-input-row button{
+    border:none; border-radius:0; background:var(--teal-deep); color:#fff; padding:.6rem .85rem;
+    cursor:pointer; font-family:'IBM Plex Mono', monospace; font-size:.78rem;
+  }
+  .ai-input-row button:hover{background:var(--teal);} 
+
+  /* ---------- Home ---------- */
+  .hero{padding:2.2rem 0 1.6rem; border-bottom:1px solid var(--line); margin-bottom:2rem;}
+  .hero h1{font-size:clamp(1.7rem, 3.4vw, 2.5rem); max-width:20ch;}
+  .hero p{max-width:60ch; color:var(--ink-soft); font-size:1.05rem;}
+
+  .hero-grid{
+    display:grid;
+    grid-template-columns:minmax(260px, 1fr) 320px;
+    gap:1.5rem;
+    align-items:start;
+    margin-bottom:2rem;
+  }
+  .hero{
+    margin:0;
+  }
+  .location-card{
+    background:var(--card); border:1px solid var(--line); border-radius:0;
+    padding:1rem 1.1rem; margin:0;
+  }
+  .location-card h2{font-size:1.15rem; margin-bottom:.35rem;}
+  .location-card p{margin:0; color:var(--ink-soft);}
+
+  .card-grid{
+    display:grid; gap:1.1rem;
+    grid-template-columns:repeat(auto-fit, minmax(200px,1fr));
+    margin-bottom:2.6rem;
+  }
+  .disease-card{
+    background:var(--card); border:1px solid var(--line); border-radius:0;
+    padding:1.3rem 1.1rem; text-align:left; cursor:pointer;
+    display:flex; flex-direction:column; gap:.7rem;
+    transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+    font-family:inherit; color:var(--ink);
+  }
+  .disease-card:hover, .disease-card:focus-visible{
+    transform:translateY(-3px);
+    box-shadow:0 10px 24px -12px rgba(16,58,66,.35);
+    border-color:var(--card-accent, var(--teal));
+  }
+  .iris-icon{width:100%; height:100%; object-fit:cover; display:block; object-position:center;}
+  .disease-card .image-wrap{
+    width:72px; height:56px; display:grid; place-items:center;
+    background:linear-gradient(135deg, rgba(16,58,66,.06), rgba(217,143,51,.12));
+    border:1px solid rgba(16,58,66,.16); padding:3px;
+    overflow:hidden;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.45);
+  }
+  .disease-card h3{font-size:1.12rem; color:var(--card-accent, var(--teal-deep));}
+  .disease-card .blurb{font-size:.92rem; color:var(--ink-soft); flex-grow:1;}
+  .disease-card .go{
+    font-family:'IBM Plex Mono', monospace; font-size:.75rem;
+    letter-spacing:.06em; text-transform:uppercase; color:var(--card-accent, var(--teal));
+  }
+
+  .doctors-section{
+    margin-top:2.4rem; padding:1.2rem 1.1rem; border:1px solid var(--line); border-radius:0;
+    background:var(--card);
+  }
+  .doctors-section h2{font-size:1.35rem; margin-bottom:.3rem;}
+  .doctors-section p{color:var(--ink-soft); margin-top:.2rem;}
+  .doctor-selector{display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:.85rem; margin:1rem 0 1.1rem;}
+  .doctor-item{
+    background:var(--paper); border:1px solid var(--line); border-radius:0; padding:1rem;
+    display:flex; flex-direction:column; align-items:flex-start; gap:.45rem;
+    color:var(--ink); text-align:left; font:inherit; width:100%; cursor:pointer;
+    transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+  }
+  .doctor-item:hover, .doctor-item:focus-visible{
+    transform:translateY(-1px); box-shadow:0 8px 20px -10px rgba(16,58,66,.4);
+    border-color:var(--teal);
+  }
+  .doctor-name{
+    display:inline-block; background:var(--teal-deep); color:#fff; border-radius:0;
+    padding:.6rem .95rem; font-weight:600;
+  }
+  .doctor-desc{margin:0; color:var(--ink-soft); font-size:.92rem; line-height:1.45;}
+  .doctor-panel{
+    border:1px solid var(--line); border-radius:0; padding:1rem 1.1rem;
+    background:linear-gradient(135deg, rgba(47,122,130,.08), rgba(217,143,51,.08));
+  }
+  .doctor-panel h3{font-size:1.12rem; margin-bottom:.25rem;}
+  .doctor-panel .doctor-role{
+    font-family:'IBM Plex Mono', monospace; font-size:.74rem; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--teal-deep); margin:.15rem 0 .5rem;
+  }
+  .doctor-panel ul{padding-left:1.1rem; margin:.6rem 0 0;}
+  .doctor-panel li{margin-bottom:.35rem;}
+
+  /* ---------- Disease pages ---------- */
+  .back-btn{
+    background:none; border:1px solid var(--line); border-radius:0;
+    padding:.4rem .8rem; cursor:pointer; font-family:'IBM Plex Mono',monospace;
+    font-size:.8rem; color:var(--teal-deep); margin-bottom:1.4rem;
+  }
+  .back-btn:hover{background:var(--card);}
+
+  .detail-hero{
+    display:grid; grid-template-columns:220px 1fr; gap:1.8rem;
+    align-items:center; padding-bottom:1.6rem; border-bottom:1px solid var(--line);
+    margin-bottom:1.6rem;
+  }
+  .detail-hero svg{width:100%; height:auto;}
+  .detail-hero h1{font-size:clamp(1.6rem,3vw,2.2rem);}
+  .detail-hero .tagline{color:var(--ink-soft); font-size:1.05rem; max-width:52ch;}
+  .affected-label{
+    display:inline-block; margin-top:.5rem; font-family:'IBM Plex Mono',monospace;
+    font-size:.72rem; letter-spacing:.06em; text-transform:uppercase;
+    padding:.25rem .55rem; border-radius:0; color:#fff;
+  }
+
+  .stat-strip{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:.8rem; margin-bottom:2rem;}
+  .stat-box{background:var(--card); border:1px solid var(--line); border-radius:0; padding:.85rem 1rem;}
+  .stat-box .k{font-family:'IBM Plex Mono',monospace; font-size:.68rem; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-soft); display:block; margin-bottom:.25rem;}
+  .stat-box .v{font-weight:600; font-size:.98rem;}
+
+  .content-grid{display:grid; grid-template-columns:2fr 1fr; gap:2rem;}
+  section.block{margin-bottom:1.8rem;}
+  section.block h2{font-size:1.2rem; border-bottom:2px solid var(--card-accent, var(--teal)); display:inline-block; padding-bottom:.2rem;}
+  section.block ul{padding-left:1.2rem; margin:.5rem 0;}
+  section.block li{margin-bottom:.4rem;}
+
+  .callout{
+    background:#FFF6E9; border:1px solid #EBD3A3; border-left:4px solid var(--amber);
+    border-radius:0; padding:1rem 1.1rem; margin:1.6rem 0;
+  }
+  .callout h3{font-size:1.02rem; margin-bottom:.3rem; font-family:'Source Sans 3',sans-serif; font-weight:700;}
+
+  aside.sources{
+    background:var(--card); border:1px solid var(--line); border-radius:0;
+    padding:1.1rem 1.2rem; align-self:start; position:sticky; top:6.2rem;
+  }
+  aside.sources h2{font-size:.95rem; font-family:'IBM Plex Mono',monospace; text-transform:uppercase; letter-spacing:.06em;}
+  aside.sources ol{padding-left:1.1rem; font-size:.86rem;}
+  aside.sources li{margin-bottom:.7rem;}
+  aside.sources a{font-family:'IBM Plex Mono',monospace; font-size:.78rem; word-break:break-word;}
+
+  footer{
+    border-top:1px solid var(--line); margin-top:2rem; padding:1.6rem 1.25rem 3rem;
+    max-width:1100px; margin-left:auto; margin-right:auto; color:var(--ink-soft); font-size:.85rem;
+  }
+  footer .disclaimer{max-width:70ch; margin-bottom:.9rem;}
+  #toTop{
+    background:var(--teal-deep); color:#fff; border:none; border-radius:0;
+    padding:.5rem .9rem; cursor:pointer; font-family:'IBM Plex Mono',monospace; font-size:.78rem;
+  }
+
+  .highlight-pulse{animation:pulse 2.6s ease-in-out infinite;}
+  @keyframes pulse{
+    0%,100%{opacity:1;}
+    50%{opacity:.55;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .highlight-pulse{animation:none;}
+    html{scroll-behavior:auto;}
+  }
+
+  body.text-lg{font-size:112%;}
+
+  @media (max-width:720px){
+    main{padding-left:1.25rem;}
+    .ai-assistant-panel{
+      position:static; width:auto; margin-bottom:1.3rem;
+    }
+    .hero-grid{grid-template-columns:1fr;}
+    .detail-hero{grid-template-columns:1fr; text-align:left;}
+    .detail-hero svg{max-width:180px;}
+    .content-grid{grid-template-columns:1fr;}
+    aside.sources{position:static;}
+  }
+  @media print{
+    .site-header, .breadcrumb, .back-btn, footer, .card-grid, .compare-section, .ai-assistant-panel{display:none !important;}
+    body{background:#fff;}
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="brand" data-nav="home" aria-label="Central Eye Care Patient Education, go home">
+      <img class="brand-mark" src="images-5.jpeg" alt="Central Eye Care logo" />
+      <span class="brand-text"><span class="eyebrow">Central Eye Care</span><span class="title">Patient Education</span></span>
+    </button>
+    <div class="header-tools">
+      <button class="tool-btn" id="fontToggle" aria-pressed="false" title="Increase text size">A+</button>
+      <button class="tool-btn" id="printBtn" title="Print this page">Print</button>
+    </div>
+  </div>
+  <nav class="breadcrumb" id="breadcrumb">
+    <button data-nav="home">Home</button>
+  </nav>
+</header>
+
+<main id="main">
+  <aside class="ai-assistant-panel" id="aiAssistantPanel" aria-label="AI assistant panel">
+    <div class="ai-assistant-header">
+      <div class="ai-avatar">AI</div>
+      <div class="ai-assistant-title">
+        <h2>Gemini AI</h2>
+        <p>Ask about symptoms or conditions</p>
+      </div>
+      <button class="ai-toggle" id="aiToggle" type="button" aria-expanded="true" aria-label="Collapse assistant">−</button>
+    </div>
+    <div class="ai-panel-body" id="aiPanelBody">
+      <div class="msg ai" style="margin:0.9rem 0.9rem 0;">This demo uses Gemini AI. For production, keep the Gemini key on a secure backend server.</div>
+      <div class="ai-messages" id="aiMessages">
+        <div class="msg ai">Hi! I can help explain eye conditions and suggest what to look for next.</div>
+      </div>
+      <form class="ai-input-row" id="aiForm">
+        <input id="aiInput" type="text" placeholder="Ask about dry eye, cataracts..." autocomplete="off">
+        <button type="submit">Send</button>
+      </form>
+    </div>
+  </aside>
+
+  <!-- ================= HOME ================= -->
+  <section class="page" id="page-home">
+    <div class="hero-grid">
+      <div class="hero">
+        <h1>Understanding the conditions that affect your vision</h1>
+        <p>Central Eye Care put this guide together so you can learn about common eye conditions in plain language before or after your visit. Choose a condition below to read about its symptoms, causes, and treatment, along with the medical sources behind it.</p>
+      </div>
+
+      <div class="location-card">
+        <h2>Located at</h2>
+        <p>3030 Salt Creek Ln Ste 300, Arlington Heights, IL 60005</p>
+      </div>
+    </div>
+
+    <div class="card-grid">
+      <button class="disease-card" data-nav="dry-eye" style="--card-accent:var(--c-dryeye)">
+        <div class="image-wrap">
+          <img class="iris-icon" src="dry_eye.jpg" alt="Dry eye illustration" />
+        </div>
+        <h3>Dry Eye Disease</h3>
+        <p class="blurb">When your eyes don't make enough tears, or the right quality of tears, to stay comfortable.</p>
+        <span class="go">Read more →</span>
+      </button>
+
+      <button class="disease-card" data-nav="diabetic-retinopathy" style="--card-accent:var(--c-dr)">
+        <div class="image-wrap">
+          <img class="iris-icon" src="candy_eye.jpg" alt="Diabetic eye illustration" />
+        </div>
+        <h3>Diabetic Retinopathy</h3>
+        <p class="blurb">Damage to the blood vessels in the retina caused by long-term high blood sugar.</p>
+        <span class="go">Read more →</span>
+      </button>
+
+      <button class="disease-card" data-nav="macular-degeneration" style="--card-accent:var(--c-amd)">
+        <div class="image-wrap">
+          <img class="iris-icon" src="clock_eye.jpg" alt="Macular degeneration illustration" />
+        </div>
+        <h3>Macular Degeneration</h3>
+        <p class="blurb">A breakdown of the macula that gradually affects the sharp, central part of your vision.</p>
+        <span class="go">Read more →</span>
+      </button>
+
+      <button class="disease-card" data-nav="cataracts" style="--card-accent:var(--c-cat)">
+        <div class="image-wrap">
+          <img class="iris-icon" src="cloudeye.jpg" alt="Clouded eye illustration" />
+        </div>
+        <h3>Cataracts</h3>
+        <p class="blurb">Clouding of the eye's natural lens that makes vision blurry, hazy, or dim.</p>
+        <span class="go">Read more →</span>
+      </button>
+
+      <button class="disease-card" data-nav="glaucoma" style="--card-accent:var(--c-glau)">
+        <div class="image-wrap">
+          <img class="iris-icon" src="pressure_eye.jpg" alt="Glaucoma pressure illustration" />
+        </div>
+        <h3>Glaucoma</h3>
+        <p class="blurb">A group of conditions that damage the optic nerve, often linked to eye pressure.</p>
+        <span class="go">Read more →</span>
+      </button>
+    </div>
+
+  </section>
+
+  <!-- ================= DOCTOR PROFILES ================= -->
+  <section class="page" id="page-doctor-schultz" hidden style="--card-accent:var(--teal)">
+    <button class="back-btn" data-nav="home">← Back to home</button>
+    <div class="detail-hero">
+      <svg viewBox="0 0 300 200" aria-hidden="true">
+        <circle cx="150" cy="100" r="72" fill="none" stroke="var(--ink-soft)" stroke-width="2"/>
+        <circle cx="150" cy="100" r="40" fill="none" stroke="var(--ink-soft)" stroke-width="2"/>
+        <circle cx="150" cy="100" r="12" fill="var(--teal)"/>
+        <path d="M90 70 C120 40, 180 40, 210 70" fill="none" stroke="var(--teal)" stroke-width="4" stroke-linecap="round"/>
+        <path d="M90 130 C120 160, 180 160, 210 130" fill="none" stroke="var(--teal)" stroke-width="4" stroke-linecap="round"/>
+      </svg>
+      <div>
+        <h1>Dr. Schultz</h1>
+        <p class="tagline">A mysterious and highly enthusiastic specialist in sparkle-enhanced eye care, known for dramatic explanations and very confident hand motions.</p>
+        <span class="affected-label" style="background:var(--teal)">Placeholder profile</span>
+      </div>
+    </div>
+
+    <div class="content-grid">
+      <div>
+        <section class="block">
+          <h2>About this doctor</h2>
+          <p>Dr. Schultz is a fictional eye care legend with a deep passion for moonbeam exams, crystal-clear diagnoses, and making every visit feel like a grand event. This profile is intentionally silly and meant only as placeholder content.</p>
+        </section>
+        <section class="block">
+          <h2>Placeholder specialties</h2>
+          <ul>
+            <li>Superhero-level enthusiasm for eye drops</li>
+            <li>Advanced training in dramatic eyebrow lifts</li>
+            <li>Professional interest in sparkle optimization</li>
+          </ul>
+        </section>
+      </div>
+      <aside class="sources">
+        <h2>Placeholder notes</h2>
+        <ul>
+          <li>Enjoys saying “vision is a journey” at least three times per visit.</li>
+          <li>Believes every prescription should be accompanied by a strong opinion.</li>
+          <li>Prefers charts, charts, and more charts.</li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <section class="page" id="page-doctor-khanna" hidden style="--card-accent:var(--amber)">
+    <button class="back-btn" data-nav="home">← Back to home</button>
+    <div class="detail-hero">
+      <svg viewBox="0 0 300 200" aria-hidden="true">
+        <circle cx="150" cy="100" r="72" fill="none" stroke="var(--ink-soft)" stroke-width="2"/>
+        <circle cx="150" cy="100" r="40" fill="none" stroke="var(--ink-soft)" stroke-width="2"/>
+        <circle cx="150" cy="100" r="12" fill="var(--amber)"/>
+        <rect x="100" y="60" width="100" height="20" rx="10" fill="var(--amber)" opacity=".75"/>
+        <rect x="108" y="120" width="84" height="16" rx="8" fill="var(--amber)" opacity=".6"/>
+      </svg>
+      <div>
+        <h1>Dr. Khanna</h1>
+        <p class="tagline">A well-dressed visionary with a talent for explaining things in the most elaborate and utterly fictional way possible.</p>
+        <span class="affected-label" style="background:var(--amber)">Placeholder profile</span>
+      </div>
+    </div>
+
+    <div class="content-grid">
+      <div>
+        <section class="block">
+          <h2>About this doctor</h2>
+          <p>Dr. Khanna is a made-up expert in fancy eye charts, dramatic pauses, and the strategic use of impressive-sounding medical words that do not actually mean anything specific. This page exists purely as a placeholder.</p>
+        </section>
+        <section class="block">
+          <h2>Placeholder specialties</h2>
+          <ul>
+            <li>Master of confident hand gestures</li>
+            <li>Certified in futuristic lens philosophy</li>
+            <li>Favorite topic: mysterious retinal sparkle</li>
+          </ul>
+        </section>
+      </div>
+      <aside class="sources">
+        <h2>Placeholder notes</h2>
+        <ul>
+          <li>Always has a polished clipboard and a very serious expression.</li>
+          <li>Believes every exam should end with a memorable quote.</li>
+          <li>Has strong opinions about the best possible lighting for eye exams.</li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <section class="page" id="page-doctor-osgood" hidden style="--card-accent:var(--c-glau)">
+    <button class="back-btn" data-nav="home">← Back to home</button>
+    <div class="detail-hero">
+      <svg viewBox="0 0 300 200" aria-hidden="true">
+        <circle cx="150" cy="100" r="72" fill="none" stroke="var(--ink-soft)" stroke-width="2"/>
+        <circle cx="150" cy="100" r="40" fill="none" stroke="var(--ink-soft)" stroke-width="2"/>
+        <circle cx="150" cy="100" r="12" fill="var(--c-glau)"/>
+        <path d="M112 80 L150 116 L188 80" fill="none" stroke="var(--c-glau)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M112 122 L150 158" fill="none" stroke="var(--c-glau)" stroke-width="4" stroke-linecap="round"/>
+      </svg>
+      <div>
+        <h1>Dr. Osgood</h1>
+        <p class="tagline">An endlessly cheerful doctor who specializes in dramatic introductions, broad smiles, and the careful art of saying absolutely nothing specific.</p>
+        <span class="affected-label" style="background:var(--c-glau)">Placeholder profile</span>
+      </div>
+    </div>
+
+    <div class="content-grid">
+      <div>
+        <section class="block">
+          <h2>About this doctor</h2>
+          <p>Dr. Osgood is a completely fictional specialist in polished explanations, friendly banter, and making ordinary placeholder text feel surprisingly important. This page is here to fill the role until real content arrives.</p>
+        </section>
+        <section class="block">
+          <h2>Placeholder specialties</h2>
+          <ul>
+            <li>Friendly consultations with extra enthusiasm</li>
+            <li>Advanced practice in vague but confident advice</li>
+            <li>Expert in making every appointment sound legendary</li>
+          </ul>
+        </section>
+      </div>
+      <aside class="sources">
+        <h2>Placeholder notes</h2>
+        <ul>
+          <li>Has a favorite pen and a very serious notebook.</li>
+          <li>Thinks every condition deserves a dramatic theme song.</li>
+          <li>Will absolutely mention “patient comfort” at least once.</li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <section class="page" id="page-doctor-porter" hidden style="--card-accent:var(--c-cat)">
+    <button class="back-btn" data-nav="home">← Back to home</button>
+    <div class="detail-hero">
+      <svg viewBox="0 0 300 200" aria-hidden="true">
+        <circle cx="150" cy="100" r="72" fill="none" stroke="var(--ink-soft)" stroke-width="2"/>
+        <circle cx="150" cy="100" r="40" fill="none" stroke="var(--ink-soft)" stroke-width="2"/>
+        <circle cx="150" cy="100" r="12" fill="var(--c-cat)"/>
+        <path d="M112 76 C126 58, 174 58, 188 76" fill="none" stroke="var(--c-cat)" stroke-width="4" stroke-linecap="round"/>
+        <path d="M118 132 C132 148, 168 148, 182 132" fill="none" stroke="var(--c-cat)" stroke-width="4" stroke-linecap="round"/>
+      </svg>
+      <div>
+        <h1>Dr. Badawi</h1>
+        <p class="tagline">A polished, highly organized doctor who likes precision, efficient visits, and explaining the plan in plain language.</p>
+        <span class="affected-label" style="background:var(--c-cat)">Placeholder profile</span>
+      </div>
+    </div>
+
+    <div class="content-grid">
+      <div>
+        <section class="block">
+          <h2>About this doctor</h2>
+          <p>Dr. Badawi is a fictional placeholder doctor with a strong interest in structured care, modern screening tools, and keeping every visit easy to understand. The details here are intentionally temporary.</p>
+        </section>
+        <section class="block">
+          <h2>Placeholder specialties</h2>
+          <ul>
+            <li>Organized care plans and follow-up tracking</li>
+            <li>Screening-focused visits with clear next steps</li>
+            <li>Friendly guidance for long-term vision health</li>
+          </ul>
+        </section>
+      </div>
+      <aside class="sources">
+        <h2>Placeholder notes</h2>
+        <ul>
+          <li>Appreciates neat notes and a tidy exam room.</li>
+          <li>Enjoys making complicated care feel manageable.</li>
+          <li>Believes every patient deserves a simple summary.</li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ================= DRY EYE ================= -->
+  <section class="page" id="page-dry-eye" hidden style="--card-accent:var(--c-dryeye)">
+    <button class="back-btn" data-nav="home">← Back to all conditions</button>
+    <div class="detail-hero">
+      <svg viewBox="0 0 300 200" aria-hidden="true">
+        <ellipse cx="95" cy="100" rx="16" ry="42" fill="none" stroke="var(--ink-soft)" stroke-width="2"/>
+        <circle cx="170" cy="100" r="78" fill="none" stroke="var(--ink-soft)" stroke-width="2"/>
+        <circle cx="103" cy="100" r="9" fill="var(--ink-soft)"/>
+        <ellipse cx="128" cy="100" rx="9" ry="22" fill="none" stroke="var(--ink-soft)" stroke-width="2"/>
+        <path d="M 108 60 A 78 78 0 0 1 108 140" fill="none" stroke="var(--ink-soft)" stroke-width="2"/>
+        <circle cx="245" cy="100" r="5" fill="var(--ink-soft)"/>
+        <line x1="248" y1="100" x2="272" y2="100" stroke="var(--ink-soft)" stroke-width="4"/>
+        <path class="highlight-pulse" d="M 82 62 A 44 44 0 0 1 82 138" fill="none" stroke="var(--c-dryeye)" stroke-width="5" stroke-linecap="round"/>
+      </svg>
+      <div>
+        <h1>Dry Eye Disease</h1>
+        <p class="tagline">A common condition where your eyes don't stay wet enough, either because they don't make enough tears or the tears don't work the way they should.</p>
+        <span class="affected-label" style="background:var(--c-dryeye)">Tear film / ocular surface</span>
+      </div>
+    </div>
+
+    <div class="stat-strip">
+      <div class="stat-box"><span class="k">Affects</span><span class="v">Millions of people yearly</span></div>
+      <div class="stat-box"><span class="k">Onset</span><span class="v">Any age, more common with age</span></div>
+      <div class="stat-box"><span class="k">Course</span><span class="v">Often manageable, can become chronic</span></div>
+    </div>
+
+    <div class="content-grid">
+      <div>
+        <section class="block">
+          <h2>Overview</h2>
+          <p>Your eyes stay comfortable and clear thanks to a thin layer of tears spread across the surface every time you blink. Dry eye disease happens when that tear film breaks down, either from not enough tear production or tears that evaporate too fast or aren't the right consistency. It's one of the most common reasons people visit an eye doctor, and it ranges from a mild nuisance to a condition that interferes with daily life.</p>
+        </section>
+        <section class="block">
+          <h2>Symptoms</h2>
+          <ul>
+            <li>Stinging, burning, or a gritty, sandy feeling</li>
+            <li>Redness and irritation</li>
+            <li>Sensitivity to light</li>
+            <li>Blurry vision that improves with blinking</li>
+            <li>Watery eyes (an overcorrection when the surface is irritated)</li>
+            <li>Trouble wearing contact lenses comfortably</li>
+          </ul>
+        </section>
+        <section class="block">
+          <h2>Causes &amp; Risk Factors</h2>
+          <ul>
+            <li>Getting older, especially past age 50</li>
+            <li>Hormonal changes, including pregnancy and menopause</li>
+            <li>Extended screen time, which reduces how often you blink</li>
+            <li>Windy, dry, or smoky environments</li>
+            <li>Certain medicines, such as antihistamines, antidepressants, and some blood pressure drugs</li>
+            <li>Autoimmune conditions like Sjögren syndrome or lupus</li>
+            <li>Some eye surgeries, including LASIK</li>
+          </ul>
+        </section>
+        <section class="block">
+          <h2>Treatment &amp; Management</h2>
+          <ul>
+            <li>Over-the-counter artificial tears or lubricating gels</li>
+            <li>Prescription eye drops that help your eyes produce more tears</li>
+            <li>Small punctal plugs that keep tears on the eye's surface longer</li>
+            <li>Adjusting or switching a medicine that's contributing to dryness</li>
+            <li>Taking regular screen breaks and using a humidifier in dry indoor air</li>
+          </ul>
+        </section>
+        <div class="callout">
+          <h3>When to contact your eye doctor</h3>
+          <p>See your eye doctor if dryness is persistent, painful, or affecting your vision, or if over-the-counter drops aren't helping after a couple of weeks.</p>
+        </div>
+      </div>
+      <aside class="sources">
+        <h2>Sources</h2>
+        <ol>
+          <li><a href="https://www.nei.nih.gov/learn-about-eye-health/eye-conditions-and-diseases/dry-eye" target="_blank" rel="noopener">National Eye Institute — Dry Eye</a></li>
+          <li><a href="https://www.aao.org/eye-health/diseases" target="_blank" rel="noopener">American Academy of Ophthalmology — Eye Health A–Z</a></li>
+          <li><a href="https://www.mayoclinic.org/diseases-conditions/dry-eyes/symptoms-causes/syc-20371863" target="_blank" rel="noopener">Mayo Clinic — Dry Eyes</a></li>
+        </ol>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ================= DIABETIC RETINOPATHY ================= -->
+  <section class="page" id="page-diabetic-retinopathy" hidden style="--card-accent:var(--c-dr)">
+    <button class="back-btn" data-nav="home">← Back to all conditions</button>
+    <div class="detail-hero">
+      <svg viewBox="0 0 300 200" aria-hidden="true">
+        <ellipse cx="95" cy="100" rx="16" ry="42" fill="none" stroke="var(--ink-soft)" stroke-width="2"/>
+        <circle cx="170" cy="100" r="78" fill="none" stroke="var(--ink-soft)" stroke-width="2"/>
+        <circle cx="103" cy="100" r="9" fill="var(--ink-soft)"/>
+        <ellipse cx="128" cy="100" rx="9" ry="22" fill="none" stroke="var(--ink-soft)" stroke-width="2"/>
+        <path class="highlight-pulse" d="M 108 60 A 78 78 0 0 1 108 140" fill="none" stroke="var(--c-dr)" stroke-width="5"/>
+        <circle cx="245" cy="100" r="5" fill="var(--ink-soft)"/>
+        <line x1="248" y1="100" x2="272" y2="100" stroke="var(--ink-soft)" stroke-width="4"/>
+      </svg>
+      <div>
+        <h1>Diabetic Retinopathy</h1>
+        <p class="tagline">Long-term high blood sugar can damage the tiny blood vessels in the retina, leading to leakage, swelling, or abnormal new vessel growth.</p>
+        <span class="affected-label" style="background:var(--c-dr)">Retinal blood vessels</span>
+      </div>
+    </div>
+
+    <div class="stat-strip">
+      <div class="stat-box"><span class="k">Who's at risk</span><span class="v">Anyone with type 1 or type 2 diabetes</span></div>
+      <div class="stat-box"><span class="k">Onset</span><span class="v">Risk grows the longer diabetes has been present</span></div>
+      <div class="stat-box"><span class="k">Reversible?</span><span class="v">Early damage is manageable; caught late, it isn't</span></div>
+    </div>
+
+    <div class="content-grid">
+      <div>
+        <section class="block">
+          <h2>Overview</h2>
+          <p>The retina relies on a network of very small blood vessels to stay nourished. When blood sugar stays high over months and years, those vessels can weaken, swell, leak fluid, or close off entirely. In more advanced stages, the eye tries to grow new, fragile vessels to compensate, and those vessels can bleed or scar. It's a leading cause of vision loss in working-age adults, but regular screening catches it early, when it's most treatable.</p>
+        </section>
+        <section class="block">
+          <h2>Symptoms</h2>
+          <ul>
+            <li>Often no symptoms at all in the early stages</li>
+            <li>Blurry or fluctuating vision</li>
+            <li>Dark spots or strings ("floaters") in your vision</li>
+            <li>Faded or washed-out colors</li>
+            <li>Dark or empty areas in your field of vision</li>
+            <li>Sudden vision loss in more advanced cases</li>
+          </ul>
+        </section>
+        <section class="block">
+          <h2>Causes &amp; Risk Factors</h2>
+          <ul>
+            <li>Longer duration of diabetes</li>
+            <li>Blood sugar that stays poorly controlled over time</li>
+            <li>High blood pressure and high cholesterol</li>
+            <li>Pregnancy in people with diabetes</li>
+            <li>Smoking</li>
+          </ul>
+        </section>
+        <section class="block">
+          <h2>Treatment &amp; Management</h2>
+          <ul>
+            <li>Managing blood sugar, blood pressure, and cholesterol closely</li>
+            <li>Laser treatment to seal or shrink abnormal vessels</li>
+            <li>Injected medicines that reduce swelling and abnormal vessel growth</li>
+            <li>Surgery (vitrectomy) for advanced bleeding or scarring</li>
+            <li>Yearly dilated eye exams, even without symptoms</li>
+          </ul>
+        </section>
+        <div class="callout">
+          <h3>When to contact your eye doctor</h3>
+          <p>If you have diabetes, get a dilated eye exam at least once a year, even if your vision feels normal — this condition is often silent until it's advanced.</p>
+        </div>
+      </div>
+      <aside class="sources">
+        <h2>Sources</h2>
+        <ol>
+          <li><a href="https://www.nei.nih.gov/learn-about-eye-health/eye-conditions-and-diseases/diabetic-retinopathy" target="_blank" rel="noopener">National Eye Institute — Diabetic Retinopathy</a></li>
+          <li><a href="https://www.aao.org/eye-health/diseases" target="_blank" rel="noopener">American Academy of Ophthalmology — Eye Health A–Z</a></li>
+          <li><a href="https://www.mayoclinic.org/diseases-conditions/diabetic-retinopathy/symptoms-causes/syc-20371611" target="_blank" rel="noopener">Mayo Clinic — Diabetic Retinopathy</a></li>
+        </ol>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ================= MACULAR DEGENERATION ================= -->
+  <section class="page" id="page-macular-degeneration" hidden style="--card-accent:var(--c-amd)">
+    <button class="back-btn" data-nav="home">← Back to all conditions</button>
+    <div class="detail-hero">
+      <svg viewBox="0 0 300 200" aria-hidden="true">
+        <ellipse cx="95" cy="100" rx="16" ry="42" fill="none" stroke="var(--ink-soft)" stroke-width="2"/>
+        <circle cx="170" cy="100" r="78" fill="none" stroke="var(--ink-soft)" stroke-width="2"/>
+        <circle cx="103" cy="100" r="9" fill="var(--ink-soft)"/>
+        <ellipse cx="128" cy="100" rx="9" ry="22" fill="none" stroke="var(--ink-soft)" stroke-width="2"/>
+        <path d="M 108 60 A 78 78 0 0 1 108 140" fill="none" stroke="var(--ink-soft)" stroke-width="2"/>
+        <circle class="highlight-pulse" cx="245" cy="100" r="7" fill="var(--c-amd)"/>
+        <line x1="248" y1="100" x2="272" y2="100" stroke="var(--ink-soft)" stroke-width="4"/>
+      </svg>
+      <div>
+        <h1>Macular Degeneration</h1>
+        <p class="tagline">A gradual breakdown of the macula, the small central part of the retina responsible for sharp, detailed vision.</p>
+        <span class="affected-label" style="background:var(--c-amd)">Macula (central retina)</span>
+      </div>
+    </div>
+
+    <div class="stat-strip">
+      <div class="stat-box"><span class="k">Also called</span><span class="v">Age-related macular degeneration (AMD)</span></div>
+      <div class="stat-box"><span class="k">Onset</span><span class="v">Usually age 55 and older</span></div>
+      <div class="stat-box"><span class="k">Forms</span><span class="v">"Dry" (common) and "wet" (faster progressing)</span></div>
+    </div>
+
+    <div class="content-grid">
+      <div>
+        <section class="block">
+          <h2>Overview</h2>
+          <p>The macula sits at the center of the retina and gives you the sharp, straight-ahead vision you use for reading, recognizing faces, and driving. AMD develops when the tissue here thins and breaks down, or when abnormal blood vessels grow underneath it. Side vision usually stays intact, but central vision becomes blurred, distorted, or develops a blank spot. It's one of the leading causes of vision loss in older adults, and it comes in a slower "dry" form and a faster-progressing "wet" form.</p>
+        </section>
+        <section class="block">
+          <h2>Symptoms</h2>
+          <ul>
+            <li>Straight lines that look wavy or bent</li>
+            <li>A blurry or blank spot in your central vision</li>
+            <li>Colors that look less vivid</li>
+            <li>Needing brighter light for reading or close-up tasks</li>
+            <li>Trouble recognizing faces</li>
+          </ul>
+        </section>
+        <section class="block">
+          <h2>Causes &amp; Risk Factors</h2>
+          <ul>
+            <li>Age, particularly past 55</li>
+            <li>Family history of AMD</li>
+            <li>Smoking, which roughly doubles the risk</li>
+            <li>High blood pressure and cardiovascular disease</li>
+            <li>Obesity and a diet low in fruits and vegetables</li>
+            <li>Prolonged, unprotected exposure to sunlight</li>
+          </ul>
+        </section>
+        <section class="block">
+          <h2>Treatment &amp; Management</h2>
+          <ul>
+            <li>Specific vitamin and mineral supplements (AREDS2 formula) for some intermediate cases</li>
+            <li>Injected medicines that can slow or stabilize wet AMD</li>
+            <li>Low-vision aids and magnification tools for daily tasks</li>
+            <li>Quitting smoking and eating a diet rich in leafy greens</li>
+            <li>Using an Amsler grid at home to track changes in central vision</li>
+          </ul>
+        </section>
+        <div class="callout">
+          <h3>When to contact your eye doctor</h3>
+          <p>Sudden distortion or a new blind spot in your central vision can signal wet AMD progressing quickly and deserves prompt attention.</p>
+        </div>
+      </div>
+      <aside class="sources">
+        <h2>Sources</h2>
+        <ol>
+          <li><a href="https://www.nei.nih.gov/learn-about-eye-health/eye-conditions-and-diseases/age-related-macular-degeneration" target="_blank" rel="noopener">National Eye Institute — Age-Related Macular Degeneration</a></li>
+          <li><a href="https://www.aao.org/eye-health/diseases" target="_blank" rel="noopener">American Academy of Ophthalmology — Eye Health A–Z</a></li>
+          <li><a href="https://www.mayoclinic.org/diseases-conditions/dry-macular-degeneration/symptoms-causes/syc-20350375" target="_blank" rel="noopener">Mayo Clinic — Macular Degeneration</a></li>
+        </ol>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ================= CATARACTS ================= -->
+  <section class="page" id="page-cataracts" hidden style="--card-accent:var(--c-cat)">
+    <button class="back-btn" data-nav="home">← Back to all conditions</button>
+    <div class="detail-hero">
+      <svg viewBox="0 0 300 200" aria-hidden="true">
+        <ellipse cx="95" cy="100" rx="16" ry="42" fill="none" stroke="var(--ink-soft)" stroke-width="2"/>
+        <circle cx="170" cy="100" r="78" fill="none" stroke="var(--ink-soft)" stroke-width="2"/>
+        <circle cx="103" cy="100" r="9" fill="var(--ink-soft)"/>
+        <ellipse class="highlight-pulse" cx="128" cy="100" rx="9" ry="22" fill="var(--c-cat)" opacity=".75" stroke="var(--c-cat)" stroke-width="2"/>
+        <path d="M 108 60 A 78 78 0 0 1 108 140" fill="none" stroke="var(--ink-soft)" stroke-width="2"/>
+        <circle cx="245" cy="100" r="5" fill="var(--ink-soft)"/>
+        <line x1="248" y1="100" x2="272" y2="100" stroke="var(--ink-soft)" stroke-width="4"/>
+      </svg>
+      <div>
+        <h1>Cataracts</h1>
+        <p class="tagline">A clouding of the eye's naturally clear lens that gradually makes vision blurry, hazy, or dim.</p>
+        <span class="affected-label" style="background:var(--c-cat)">Lens</span>
+      </div>
+    </div>
+
+    <div class="stat-strip">
+      <div class="stat-box"><span class="k">Who's at risk</span><span class="v">Most people eventually, with age</span></div>
+      <div class="stat-box"><span class="k">Onset</span><span class="v">Usually age 60 and older</span></div>
+      <div class="stat-box"><span class="k">Treatable?</span><span class="v">Yes — surgery is highly effective</span></div>
+    </div>
+
+    <div class="content-grid">
+      <div>
+        <section class="block">
+          <h2>Overview</h2>
+          <p>The lens sits behind the iris and focuses light onto the retina. It's normally clear, but proteins inside it can clump together over time, clouding small areas at first and eventually more of the lens. This is a cataract. It develops slowly, often over years, and is one of the most common and most treatable causes of vision loss — a short outpatient surgery replaces the clouded lens with a clear artificial one.</p>
+        </section>
+        <section class="block">
+          <h2>Symptoms</h2>
+          <ul>
+            <li>Cloudy, blurry, or dim vision</li>
+            <li>Colors that look faded or yellowed</li>
+            <li>Increased glare from headlights or bright light</li>
+            <li>Trouble seeing well at night</li>
+            <li>Frequent changes in glasses or contact lens prescription</li>
+            <li>Double vision in one eye</li>
+          </ul>
+        </section>
+        <section class="block">
+          <h2>Causes &amp; Risk Factors</h2>
+          <ul>
+            <li>Aging (the most common cause)</li>
+            <li>Diabetes</li>
+            <li>Smoking and heavy alcohol use</li>
+            <li>Prolonged, unprotected sun exposure</li>
+            <li>Long-term use of corticosteroid medicines</li>
+            <li>Previous eye injury or surgery</li>
+          </ul>
+        </section>
+        <section class="block">
+          <h2>Treatment &amp; Management</h2>
+          <ul>
+            <li>Updated glasses or brighter lighting in early stages</li>
+            <li>Cataract surgery, which removes the clouded lens and replaces it with a clear artificial lens</li>
+            <li>Surgery is typically outpatient with a short recovery</li>
+            <li>Wearing sunglasses to help slow further clouding</li>
+          </ul>
+        </section>
+        <div class="callout">
+          <h3>When to contact your eye doctor</h3>
+          <p>Talk with your eye doctor when cloudy vision starts affecting daily tasks like reading, driving, or recognizing faces — that's usually the right time to discuss surgery.</p>
+        </div>
+      </div>
+      <aside class="sources">
+        <h2>Sources</h2>
+        <ol>
+          <li><a href="https://www.nei.nih.gov/learn-about-eye-health/eye-conditions-and-diseases/cataracts" target="_blank" rel="noopener">National Eye Institute — Cataracts</a></li>
+          <li><a href="https://www.aao.org/eye-health/diseases" target="_blank" rel="noopener">American Academy of Ophthalmology — Eye Health A–Z</a></li>
+          <li><a href="https://www.mayoclinic.org/diseases-conditions/cataracts/symptoms-causes/syc-20353790" target="_blank" rel="noopener">Mayo Clinic — Cataracts</a></li>
+        </ol>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ================= GLAUCOMA ================= -->
+  <section class="page" id="page-glaucoma" hidden style="--card-accent:var(--c-glau)">
+    <button class="back-btn" data-nav="home">← Back to all conditions</button>
+    <div class="detail-hero">
+      <svg viewBox="0 0 300 200" aria-hidden="true">
+        <ellipse cx="95" cy="100" rx="16" ry="42" fill="none" stroke="var(--ink-soft)" stroke-width="2"/>
+        <circle cx="170" cy="100" r="78" fill="none" stroke="var(--ink-soft)" stroke-width="2"/>
+        <circle cx="103" cy="100" r="9" fill="var(--ink-soft)"/>
+        <ellipse cx="128" cy="100" rx="9" ry="22" fill="none" stroke="var(--ink-soft)" stroke-width="2"/>
+        <path d="M 108 60 A 78 78 0 0 1 108 140" fill="none" stroke="var(--ink-soft)" stroke-width="2"/>
+        <circle cx="245" cy="100" r="5" fill="var(--ink-soft)"/>
+        <line class="highlight-pulse" x1="248" y1="100" x2="272" y2="100" stroke="var(--c-glau)" stroke-width="6" stroke-linecap="round"/>
+        <circle class="highlight-pulse" cx="107" cy="128" r="5" fill="var(--c-glau)"/>
+      </svg>
+      <div>
+        <h1>Glaucoma</h1>
+        <p class="tagline">A group of conditions that damage the optic nerve — the cable that carries images from your eye to your brain — often linked to pressure inside the eye.</p>
+        <span class="affected-label" style="background:var(--c-glau)">Optic nerve / drainage angle</span>
+      </div>
+    </div>
+
+    <div class="stat-strip">
+      <div class="stat-box"><span class="k">Nickname</span><span class="v">"The silent thief of sight"</span></div>
+      <div class="stat-box"><span class="k">Onset</span><span class="v">Risk rises after age 40</span></div>
+      <div class="stat-box"><span class="k">Reversible?</span><span class="v">No — but progression is preventable</span></div>
+    </div>
+
+    <div class="content-grid">
+      <div>
+        <section class="block">
+          <h2>Overview</h2>
+          <p>Fluid constantly flows in and out of the front of your eye. When the drainage angle that lets fluid out becomes blocked or inefficient, pressure builds up inside the eye and can gradually damage the optic nerve. Because this usually starts at the edges of your vision and progresses slowly, most people don't notice any change until meaningful vision is already lost — which is why glaucoma is often called the "silent thief of sight." Vision lost to glaucoma cannot be recovered, but treatment can stop or slow further damage.</p>
+        </section>
+        <section class="block">
+          <h2>Symptoms</h2>
+          <ul>
+            <li>Usually none in the early stages</li>
+            <li>Gradual loss of side (peripheral) vision</li>
+            <li>Patchy blind spots in central or side vision, in later stages</li>
+            <li>Tunnel vision in advanced disease</li>
+            <li>In acute angle-closure glaucoma: sudden eye pain, headache, blurred vision, halos around lights, nausea — this is an emergency</li>
+          </ul>
+        </section>
+        <section class="block">
+          <h2>Causes &amp; Risk Factors</h2>
+          <ul>
+            <li>Elevated pressure inside the eye</li>
+            <li>Age over 40, with risk increasing further after 60</li>
+            <li>Family history of glaucoma</li>
+            <li>Certain ethnic backgrounds carry higher risk for specific types</li>
+            <li>Thin corneas, extreme nearsightedness or farsightedness</li>
+            <li>Past eye injury or long-term steroid use</li>
+          </ul>
+        </section>
+        <section class="block">
+          <h2>Treatment &amp; Management</h2>
+          <ul>
+            <li>Prescription eye drops that lower eye pressure</li>
+            <li>Laser treatment to improve fluid drainage</li>
+            <li>Surgery to create a new drainage pathway in more advanced cases</li>
+            <li>Regular monitoring of eye pressure and the optic nerve</li>
+            <li>Consistent use of prescribed drops, since damage already done can't be reversed</li>
+          </ul>
+        </section>
+        <div class="callout">
+          <h3>When to contact your eye doctor</h3>
+          <p>Get regular comprehensive eye exams, especially after 40 or with a family history of glaucoma. Sudden eye pain, blurred vision, or halos around lights need urgent care the same day.</p>
+        </div>
+      </div>
+      <aside class="sources">
+        <h2>Sources</h2>
+        <ol>
+          <li><a href="https://www.nei.nih.gov/learn-about-eye-health/eye-conditions-and-diseases/glaucoma" target="_blank" rel="noopener">National Eye Institute — Glaucoma</a></li>
+          <li><a href="https://www.aao.org/eye-health/diseases" target="_blank" rel="noopener">American Academy of Ophthalmology — Eye Health A–Z</a></li>
+          <li><a href="https://www.mayoclinic.org/diseases-conditions/glaucoma/symptoms-causes/syc-20372839" target="_blank" rel="noopener">Mayo Clinic — Glaucoma</a></li>
+        </ol>
+      </aside>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p class="disclaimer">This page is for general patient education only and isn't a substitute for a professional eye exam or medical advice. If you have symptoms or concerns about your vision, please contact Central Eye Care or your eye doctor directly.</p>
+  <button id="toTop">Back to top ↑</button>
+</footer>
+
+<script>
+  (function(){
+    var pages = {
+      'home': document.getElementById('page-home'),
+      'doctor-schultz': document.getElementById('page-doctor-schultz'),
+      'doctor-khanna': document.getElementById('page-doctor-khanna'),
+      'doctor-osgood': document.getElementById('page-doctor-osgood'),
+      'doctor-porter': document.getElementById('page-doctor-porter'),
+      'dry-eye': document.getElementById('page-dry-eye'),
+      'diabetic-retinopathy': document.getElementById('page-diabetic-retinopathy'),
+      'macular-degeneration': document.getElementById('page-macular-degeneration'),
+      'cataracts': document.getElementById('page-cataracts'),
+      'glaucoma': document.getElementById('page-glaucoma')
+    };
+    var titles = {
+      'home':'Home',
+      'doctor-schultz':'Dr. Schultz',
+      'doctor-khanna':'Dr. Khanna',
+      'doctor-osgood':'Dr. Osgood',
+      'doctor-porter':'Dr. Badawi',
+      'dry-eye':'Dry Eye Disease',
+      'diabetic-retinopathy':'Diabetic Retinopathy',
+      'macular-degeneration':'Macular Degeneration',
+      'cataracts':'Cataracts',
+      'glaucoma':'Glaucoma'
+    };
+    var breadcrumb = document.getElementById('breadcrumb');
+
+    function showPage(key, pushHash){
+      if(!pages[key]) key = 'home';
+      Object.keys(pages).forEach(function(k){
+        pages[k].hidden = (k !== key);
+      });
+      if(key === 'home'){
+        breadcrumb.innerHTML = '<button data-nav="home">Home</button>';
+      } else {
+        breadcrumb.innerHTML = '<button data-nav="home">Home</button><span aria-hidden="true"> / </span><span>'+titles[key]+'</span>';
+      }
+      if(pushHash){
+        history.pushState(null, '', '#'+key);
+      }
+      document.getElementById('main').scrollTo && window.scrollTo(0,0);
+      document.title = (key==='home' ? 'Central Eye Care | Patient Education' : titles[key] + ' | Central Eye Care');
+    }
+
+    document.addEventListener('click', function(e){
+      var btn = e.target.closest('[data-nav]');
+      if(btn){
+        showPage(btn.getAttribute('data-nav'), true);
+      }
+    });
+
+    window.addEventListener('popstate', function(){
+      showPage(location.hash.replace('#',''), false);
+    });
+
+    document.getElementById('fontToggle').addEventListener('click', function(){
+      var on = document.body.classList.toggle('text-lg');
+      this.setAttribute('aria-pressed', on ? 'true':'false');
+      this.textContent = on ? 'A−' : 'A+';
+      this.title = on ? 'Reset text size' : 'Increase text size';
+    });
+    document.getElementById('printBtn').addEventListener('click', function(){ window.print(); });
+    document.getElementById('toTop').addEventListener('click', function(){ window.scrollTo({top:0, behavior:'smooth'}); });
+
+    var aiToggle = document.getElementById('aiToggle');
+    var aiPanel = document.getElementById('aiAssistantPanel');
+    var aiPanelBody = document.getElementById('aiPanelBody');
+    var aiExpanded = true;
+    if(aiToggle && aiPanel && aiPanelBody){
+      aiToggle.addEventListener('click', function(){
+        aiExpanded = !aiExpanded;
+        aiPanel.classList.toggle('collapsed', !aiExpanded);
+        aiPanelBody.style.display = aiExpanded ? 'flex' : 'none';
+        aiToggle.textContent = aiExpanded ? '−' : '+';
+        aiToggle.setAttribute('aria-expanded', aiExpanded ? 'true' : 'false');
+        aiToggle.setAttribute('aria-label', aiExpanded ? 'Collapse assistant' : 'Expand assistant');
+      });
+    }
+
+    var aiForm = document.getElementById('aiForm');
+    var aiInput = document.getElementById('aiInput');
+    var aiMessages = document.getElementById('aiMessages');
+    var GEMINI_API_KEY = 'AQ.Ab8RN6KXQDmaSSE5gmzgSXYJ0nzJALjErI_f2ZZ48SQKpNcMRg';
+    var GEMINI_MODEL = 'gemini-flash-latest';
+
+    function isGeminiEnabled(){
+      return GEMINI_API_KEY.trim().length > 0;
+    }
+
+    async function sendToGemini(text){
+      var url = 'https://generativelanguage.googleapis.com/v1beta/models/' + encodeURIComponent(GEMINI_MODEL) + ':generateContent?key=' + encodeURIComponent(GEMINI_API_KEY);
+      var body = {
+        contents: [
+          {
+            parts: [
+              {
+                text: 'You are a Gemini AI assistant for eye care education. Answer in one or two short sentences using only plain text, no markdown, no bullet points, and no asterisks. User question: ' + text
+              }
+            ]
+          }
+        ]
+      };
+      var response = await fetch(url, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(body)
+      });
+      if(!response.ok){
+        var errText = await response.text();
+        throw new Error('Gemini API error: ' + response.status + ' ' + response.statusText + ' - ' + errText);
+      }
+      var data = await response.json();
+      return data?.candidates?.[0]?.content?.parts?.[0]?.text || data?.candidates?.[0]?.output?.text || data?.output?.text || 'I could not generate a reply.';
+    }
+
+    function addMessage(text, kind){
+      var msg = document.createElement('div');
+      msg.className = 'msg ' + kind;
+      msg.textContent = text;
+      aiMessages.appendChild(msg);
+      aiMessages.scrollTop = aiMessages.scrollHeight;
+    }
+
+    function addLoadingMessage(){
+      var msg = document.createElement('div');
+      msg.className = 'msg ai loading';
+      msg.textContent = 'Generating...';
+      aiMessages.appendChild(msg);
+      aiMessages.scrollTop = aiMessages.scrollHeight;
+      return msg;
+    }
+
+    function cleanReply(text){
+      if(!text) return text;
+      var clean = text.replace(/\*/g,'').replace(/[\r\n]+/g,' ').replace(/\s+/g,' ').trim();
+      if(clean.length > 260) clean = clean.slice(0, 260).trim() + '...';
+      return clean;
+    }
+
+    async function getReply(text){
+      if(isGeminiEnabled()){
+        return await sendToGemini(text);
+      }
+      var value = text.toLowerCase();
+      if(value.includes('dry')) return 'Dry eye often causes a gritty, burning feeling and blurry vision that improves with blinking. A visit can help confirm the cause.';
+      if(value.includes('cataract')) return 'Cataracts can make things look cloudy or dim. An eye exam can help decide whether treatment or monitoring is appropriate.';
+      if(value.includes('glaucoma')) return 'Glaucoma can develop without obvious symptoms early on, which is why regular eye exams matter.';
+      if(value.includes('diabetic')) return 'Diabetic eye disease is often caught with dilated exams, especially if blood sugar has been high for a long time.';
+      if(value.includes('macular')) return 'Macular changes can cause straight lines to look wavy or central vision to become blurry.';
+      return 'I can help with basic questions about dry eye, cataracts, glaucoma, diabetic eye disease, and macular changes.';
+    }
+
+    if(aiForm && aiInput && aiMessages){
+      aiForm.addEventListener('submit', function(e){
+        e.preventDefault();
+        var value = aiInput.value.trim();
+        if(!value) return;
+        addMessage(value, 'user');
+        aiInput.value = '';
+        var loadingMsg = addLoadingMessage();
+        var submitBtn = aiForm.querySelector('button');
+        submitBtn.disabled = true;
+        aiInput.disabled = true;
+        getReply(value).then(function(reply){
+          loadingMsg.remove();
+          addMessage(reply, 'ai');
+        }).catch(function(err){
+          loadingMsg.remove();
+          addMessage('Sorry, I could not get an answer. ' + err.message, 'ai');
+        }).finally(function(){
+          submitBtn.disabled = false;
+          aiInput.disabled = false;
+          aiInput.focus();
+        });
+      });
+    }
+
+    var initial = location.hash.replace('#','') || 'home';
+    showPage(initial, false);
+  })();
+</script>
+
+</body>
+</html>
